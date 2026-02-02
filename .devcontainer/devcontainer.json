@@ -1,0 +1,120 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+    // "options": ["--ssh=default"] // Uncomment this line to forward SSH agent during build process
+  },
+  "name": "ROS2 Dev Container",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/robot/ros2_ws/,type=bind",
+  "workspaceFolder": "/home/robot/ros2_ws",
+  "runArgs": [
+    "--name=ros2_dev_container", // sets the name of the container
+    "--network=host", // allows the container to access the host network
+    "--cap-add=SYS_PTRACE", // adds the ability to use ptrace for debugging
+    "--security-opt=seccomp:unconfined", // allows the container to run without a security profile for debugging
+    "--security-opt=apparmor:unconfined", // allows the container more access to the host network
+    "--volume=/tmp/.X11-unix:/tmp/.X11-unix", // Only needed on linux, Comment if you are on Windows
+    // "--gpus=all", // this is needed for hardware acceleration on nvidia gpus
+    // "--volume=/mnt/wslg:/mnt/wslg", // uncomment to use wslg
+    "--ipc=host", // allow the container to share the same Inter-Process Communcation (IPC) namespace as the host
+    "--device=/dev/dri" // uncomment to use intel iGPU
+  ],
+  "containerEnv": {
+    "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}", // Make sure your SSH agent is running: https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials
+    "DISPLAY": "${localEnv:DISPLAY}", // Needed for GUI try ":0" for windows
+    "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+    "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+    "PULSE_SERVER": "${localEnv:PULSE_SERVER}",
+    "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST"
+    // uncomment if you are on ARM architecture
+    // "LIBGL_ALWAYS_SOFTWARE": "1" // Needed for software rendering of opengl
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/robot/.ssh,type=bind,readonly",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/robot/.gitconfig,type=bind"
+    // "source=${localEnv:HOME}/data,target=/home/robot/data,type=bind,consistency=cached" // Rosbag mount
+  ],
+  //   "postCreateCommand": "src/vaul_robot/.devcontainer/post_create.bash",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // General
+        "esbenp.prettier-vscode",
+        "ms-iot.vscode-ros",
+        "ngtystr.ppm-pgm-viewer-for-vscode",
+        "GitHub.copilot",
+        "christian-kohler.path-intellisense",
+
+        // Python
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "ms-python.python",
+
+        // Cpp
+        "xaver.clang-format",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+
+        // ROS
+        "ranch-hand-robotics.rde-ros-2"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "files.exclude": {
+          "**/build": true,
+          "**/install": true,
+          "**/log": true,
+          "**/vaul_robot/src": true // Specifc to this workspace
+        },
+
+        // Python
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "always",
+            "source.fixAll": "never",
+            "source.unusedImports": "never"
+          }
+        },
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "python.analysis.importFormat": "relative",
+        "python.languageServer": "Pylance",
+        "python.analysis.typeCheckingMode": "basic",
+        "black-formatter.args": ["--line-length=120"],
+        "python.analysis.packageIndexDepths": [
+          {
+            "name": "rclpy",
+            "depth": 5,
+            "includeAllSymbols": true
+          },
+          {
+            "name": "matplotlib",
+            "depth": 5,
+            "includeAllSymbols": true
+          },
+          {
+            "name": "scipy",
+            "depth": 5,
+            "includeAllSymbols": true
+          },
+          {
+            "name": "cuda",
+            "depth": 5,
+            "includeAllSymbols": true
+          }
+        ],
+
+        // Cpp
+        "[cpp]": {
+          "editor.defaultFormatter": "xaver.clang-format"
+        },
+        "clangd.arguments": [
+          "--compile-commands-dir=/home/${localEnv:USER}/ros2_ws/build",
+          "--query-driver=/usr/bin/g++"
+        ]
+      }
+    }
+  }
+}

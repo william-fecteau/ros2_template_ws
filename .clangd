@@ -1,0 +1,25 @@
+CompileFlags:
+  Add: [
+    -std=c++17,
+    -I/usr/lib/gcc/x86_64-linux-gnu/13/include,
+    -fopenmp,
+    -I/home/robot/ros2_ws/install/wiln_msgs/include,
+    -I/home/robot/ros2_ws/install/warthog_msgs/include,
+    -I/home/robot/ros2_ws/install/sysnergie_msgs/include,
+    -I/home/robot/ros2_ws/install/roboclaw_msgs/include,
+    -I/home/robot/ros2_ws/install/norlab_icp_mapper_ros/include,
+    -I/home/robot/ros2_ws/install/navtech_msgs/include,
+    -I/home/robot/ros2_ws/install/lslidar_c16_decoder/include,
+    -I/home/robot/ros2_ws/install/lslidar_c16_msgs/include,
+    -I/home/robot/ros2_ws/install/libpointmatcher_ros/include,
+    -I/home/robot/ros2_ws/install/falcon_msgs/include,
+    -I/home/robot/ros2_ws/install/controller_msgs/include,
+    -I/opt/ros/jazzy/include,
+    -I/home/robot/ros2_ws/src/Lslidar_ROS2_driver/lslidar_c16_decoder/include,
+    -I/home/robot/ros2_ws/src/Lslidar_ROS2_driver/lslidar_c16_driver/include,
+    -I/home/robot/ros2_ws/src/libpointmatcher_ros/include,
+    -I/usr/include,
+    -I/usr/local/include,
+  ]
+  CompilationDatabase: build/
+  

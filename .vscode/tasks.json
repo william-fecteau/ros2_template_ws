@@ -1,0 +1,55 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": [
+        "colcon",
+        "build",
+        "--symlink-install",
+        "--event-handlers",
+        "console_cohesion+",
+        "--base-paths",
+        "${workspaceFolder}",
+        "--cmake-args",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+      ],
+      "problemMatcher": ["$colcon-gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "label": "colcon: Colcon Build Release with compile_commands"
+    },
+    {
+      "type": "shell",
+      "command": [
+        "ros2",
+        "launch",
+        "foxglove_bridge",
+        "foxglove_bridge_launch.xml"
+      ],
+      "label": "launch: Foxglove Bridge",
+      "problemMatcher": []
+    },
+    {
+      "label": "TF",
+      "type": "shell",
+      "command": "/bin/bash",
+      "args": [
+        "-c",
+        "source install/setup.bash && echo \"Generating TF frames graph...\" && ros2 run tf2_tools view_frames && echo \"Converting to PNG...\" && GRAPH_FILE=$(ls frames_*.gv 2>/dev/null | head -1) && if [ -n \"$GRAPH_FILE\" ]; then dot -Tpng \"$GRAPH_FILE\" -o tf_frames_graph.png && echo \"Graph saved as tf_frames_graph.png\" && rm -f frames_*.pdf frames_*.gv && echo \"Cleaned up temporary files\" && echo \"Opening image in VS Code...\" && code tf_frames_graph.png; else echo \"No graph file found\"; fi"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
+    }
+  ]
+}
