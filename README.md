@@ -16,6 +16,7 @@ A ROS 2 Humble workspace with DevContainer support for robotics development. Inc
 
 2. **Import dependencies**
    ```bash
+   mkdir -p ros/deps
    vcs import ros/deps < ros2.repos
    ```
 
