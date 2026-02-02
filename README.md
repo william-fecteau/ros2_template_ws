@@ -8,7 +8,7 @@ A ROS 2 Humble workspace with DevContainer support for robotics development. Inc
 - **DevContainer** with pre-configured vscode extensions (clangd, clang-format, etc.)
 - **Foxglove** for visualization
 - **[ros2bag_tools](https://github.com/AIT-Assistive-Autonomous-Systems/ros2bag_tools)** for rosbag operations and analysis
-- **[ros2-unbag](https://github.com/ika-rwth-aachen/ros2_unbag.git)** for rosbag extraction
+- **[ros2_unbag](https://github.com/ika-rwth-aachen/ros2_unbag.git)** for rosbag extraction
 
 ## Quick Start
 
